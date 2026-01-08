@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-        <head>
-                <title>CAPTCHA Test</title>
-                <style>
+    <head>
+        <title>CAPTCHA Test</title>
+        <style>
         body { font-family: Arial; padding: 20px; }
         #captchaImg { border: 1px solid #ccc; margin: 10px 0; }
         input { padding: 8px; width: 150px; }
@@ -10,30 +10,30 @@
         .success { color: green; }
         .error { color: red; }
     </style>
-        </head>
-        <body>
-                <h2>CAPTCHA Verification</h2>
+    </head>
+    <body>
+        <h2>CAPTCHA Verification</h2>
 
-                <div>
-                        <img id="captchaImg" width="280" height="90"><br>
-                        <input type="text" id="captchaText"
-                                placeholder="Enter CAPTCHA">
-                        <button onclick="verify()">Verify</button>
-                        <button onclick="refresh()">New CAPTCHA</button>
-                </div>
+        <div>
+            <img id="captchaImg" width="280" height="90"><br>
+            <input type="text" id="captchaText"
+                placeholder="Enter CAPTCHA">
+            <button onclick="verify()">Verify</button>
+            <button onclick="refresh()">New CAPTCHA</button>
+        </div>
 
-                <div id="message"></div>
+        <div id="message"></div>
 
-                <div id="secret" style="display:none; margin-top:20px;">
-                        <h3>✅ Success! Here's your image:</h3>
-                        <img
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"
-                                width="500">
-                </div>
+        <div id="secret" style="display:none; margin-top:20px;">
+            <h3>✅ Success! Here's your image:</h3>
+            <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"
+                width="500">
+        </div>
 
-                <script>
+        <script>
         let captchaId = "";
-        const API_BASE = "https://YOUR-APP.onrender.com"; // CHANGE THIS LATER
+        const API_BASE = "https://kaptcha-api.onrender.com";
         
         async function refresh() {
             try {
@@ -69,5 +69,5 @@
         // Load first CAPTCHA
         refresh();
     </script>
-        </body>
+    </body>
 </html>
