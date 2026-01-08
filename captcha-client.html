@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <title>CAPTCHA Test</title>
+                <style>
+        body { font-family: Arial; padding: 20px; }
+        #captchaImg { border: 1px solid #ccc; margin: 10px 0; }
+        input { padding: 8px; width: 150px; }
+        button { padding: 8px 15px; margin: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+        </head>
+        <body>
+                <h2>CAPTCHA Verification</h2>
+
+                <div>
+                        <img id="captchaImg" width="280" height="90"><br>
+                        <input type="text" id="captchaText"
+                                placeholder="Enter CAPTCHA">
+                        <button onclick="verify()">Verify</button>
+                        <button onclick="refresh()">New CAPTCHA</button>
+                </div>
+
+                <div id="message"></div>
+
+                <div id="secret" style="display:none; margin-top:20px;">
+                        <h3>✅ Success! Here's your image:</h3>
+                        <img
+                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"
+                                width="500">
+                </div>
+
+                <script>
+        let captchaId = "";
+        const API_BASE = "https://YOUR-APP.onrender.com"; // CHANGE THIS LATER
+        
+        async function refresh() {
+            try {
+                const res = await fetch(API_BASE + "/captcha/new");
+                const data = await res.json();
+                captchaId = data.captchaId;
+                document.getElementById('captchaImg').src = API_BASE + "/captcha/image/" + captchaId;
+                document.getElementById('message').innerHTML = "";
+                document.getElementById('secret').style.display = 'none';
+            } catch (e) {
+                alert("Error: " + e);
+            }
+        }
+        
+        async function verify() {
+            const text = document.getElementById('captchaText').value;
+            const res = await fetch(API_BASE + "/captcha/verify", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: captchaId, answer: text})
+            });
+            const result = await res.json();
+            
+            if (result.success) {
+                document.getElementById('message').innerHTML = "<p class='success'>✅ Correct!</p>";
+                document.getElementById('secret').style.display = 'block';
+            } else {
+                document.getElementById('message').innerHTML = "<p class='error'>❌ Wrong. Try again.</p>";
+                refresh();
+            }
+        }
+        
+        // Load first CAPTCHA
+        refresh();
+    </script>
+        </body>
+</html>
